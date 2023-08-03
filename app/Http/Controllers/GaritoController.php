@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Garito;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Storage;
  */
 class GaritoController extends Controller
 {
+        // Resto del código de tu componente
     /**
      * Display a listing of the resource.
      *
@@ -44,9 +46,42 @@ class GaritoController extends Controller
      */
     public function store(Request $request)
     {
+                $validator = Validator::make($request, [
+            'nombre_garito'      => 'required|max:255',
+            'nombre_duenyo'      => 'required|max:255',
+            'mail'               => 'nullable|email|max:255',
+            'direccion'          => 'required|max:255',
+            'poblacion'          => 'required|max:255',
+            'codigo_postal'      => 'required|numeric',
+            'comunidad_autonoma' => 'required|max:255',
+            'provincia'          => 'required|max:255',
+            'telefono'           => 'nullable|numeric',
+            'telefono2'          => 'nullable|numeric',
+            'facebook'           => 'nullable|max:255',
+            'instagram'          => 'nullable|max:255',
+            'frase'              => 'nullable|max:255',
+            'sentence'           => 'nullable|max:255',
+            'visitado'           => 'nullable|boolean',
+            'ratio_colaboracion' => 'nullable|numeric',
+            'imagen'             => 'nullable|image|max:2048',
+            'alt_imagen'         => 'nullable|max:255',
+            'latitud'            => 'nullable|numeric',
+            'longitud'           => 'nullable|numeric',
+            'tendencia'          => 'nullable|max:255',
+            // Agrega más reglas de validación para otros campos según tus necesidades
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->route('garitos.create')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        //LLAMADA A LA FUNCION QUE NO FUNCIONA
+        // $this->validateForm($requestData);
         $garito = request()->except('_token');
         if ($request->hasFile('imagen')) {
-            $garito['imagen']=$request->file('imagen')->store('uploads', 'public');
+            $garito['imagen'] = $request->file('imagen')->store('uploads', 'public');
         }
         Garito::insert($garito);
 
@@ -117,4 +152,40 @@ class GaritoController extends Controller
         return redirect()->route('garitos.index')
             ->with('success', 'Garito deleted successfully');
     }
+
+
+    //Esta fiuncion esta por implementar
+    // public function validateForm($request)
+    // {
+    //     $validator = Validator::make($request, [
+    //         'nombre_garito'      => 'required|max:255',
+    //         'nombre_duenyo'      => 'required|max:255',
+    //         'mail'               => 'nullable|email|max:255',
+    //         'direccion'          => 'required|max:255',
+    //         'poblacion'          => 'required|max:255',
+    //         'codigo_postal'      => 'required|numeric',
+    //         'comunidad_autonoma' => 'required|max:255',
+    //         'provincia'          => 'required|max:255',
+    //         'telefono'           => 'nullable|numeric',
+    //         'telefono2'          => 'nullable|numeric',
+    //         'facebook'           => 'nullable|max:255',
+    //         'instagram'          => 'nullable|max:255',
+    //         'frase'              => 'nullable|max:255',
+    //         'sentence'           => 'nullable|max:255',
+    //         'visitado'           => 'nullable|boolean',
+    //         'ratio_colaboracion' => 'nullable|numeric',
+    //         'imagen'             => 'nullable|image|max:2048',
+    //         'alt_imagen'         => 'nullable|max:255',
+    //         'latitud'            => 'nullable|numeric',
+    //         'longitud'           => 'nullable|numeric',
+    //         'tendencia'          => 'nullable|max:255',
+    //         // Agrega más reglas de validación para otros campos según tus necesidades
+    //     ]);
+
+    //     if ($validator->fails()) {
+    //         return redirect()->route('garitos.create')
+    //             ->withErrors($validator)
+    //             ->withInput();
+    //     }
+    // }
 }
