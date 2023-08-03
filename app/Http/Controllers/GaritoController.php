@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Storage;
  */
 class GaritoController extends Controller
 {
-        // Resto del código de tu componente
+    // Resto del código de tu componente
     /**
      * Display a listing of the resource.
      *
@@ -46,7 +46,7 @@ class GaritoController extends Controller
      */
     public function store(Request $request)
     {
-                $validator = Validator::make($request, [
+        $validator = Validator::make($request->all(), [
             'nombre_garito'      => 'required|max:255',
             'nombre_duenyo'      => 'required|max:255',
             'mail'               => 'nullable|email|max:255',
@@ -128,7 +128,7 @@ class GaritoController extends Controller
         if ($request->hasFile('imagen')) {
             $garito1 = Garito::findOrFail($id);
             Storage::delete('public/' . $garito1->imagen);
-            $garito['imagen']=$request->file('imagen')->store('uploads', 'public');
+            $garito['imagen'] = $request->file('imagen')->store('uploads', 'public');
         }
         Garito::where('id', '=', $id)->update($garito);
         $garito1 = Garito::findOrFail($id);
