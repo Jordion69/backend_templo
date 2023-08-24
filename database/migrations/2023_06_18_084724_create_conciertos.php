@@ -23,7 +23,6 @@ return new class extends Migration
             $table->string('poblacion');
             $table->string('provincia');
             $table->text('link_entrada')->nullable();
-            $table->date('fecha_evento');
             $table->timestamps();
         });
     }

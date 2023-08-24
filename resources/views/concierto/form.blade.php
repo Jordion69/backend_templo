@@ -1,10 +1,10 @@
 <div class="box box-info padding-1">
     <div class="box-body">
-        <div class="form-group">
+        <!-- <div class="form-group">
             <label for="imagen">Imagen</label>
             <img src="{{ asset('storage') .'/' . $concierto->imagen}}" width="100" alt="">
             <input type="file" name="imagen" id="imagen">
-        </div>
+        </div> -->
         <div class="form-group">
             {{ Form::label('nombre') }}
             {{ Form::text('nombre', $concierto->nombre, ['class' => 'form-control' . ($errors->has('nombre') ? ' is-invalid' : ''), 'placeholder' => 'Nombre']) }}
@@ -46,7 +46,7 @@
             {!! $errors->first('fecha_evento', '<div class="invalid-feedback">:message</div>') !!}
         </div>
         <div class="form-group">
-            <label for="imagen">Imagen</label>
+            <label for="imagen">foto_logo</label>
             <img src="{{ asset('storage') .'/' . $concierto->imagen}}" width="100" alt="">
             <input type="file" name="imagen" id="imagen">
         </div>

@@ -9,6 +9,8 @@ use App\Http\Controllers\GaritoController;
 use App\Http\Controllers\NoticiaController;
 use App\Http\Controllers\ConciertoController;
 use App\Http\Controllers\TeloneroController;
+use App\Http\Controllers\EmailController;
+use Fruitcake\Cors\CorsFacade as Cors;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +28,12 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+
+// Route::post('/EnviarCorreo', [EmailController::class,'index']);
+
+Route::middleware([Cors::class])->group(function () {
+    Route::post('/EnviarCorreo', [EmailController::class,'index']);
+});
 
 
 Route::group(['middleware' => ['auth', 'permission']], function () {
