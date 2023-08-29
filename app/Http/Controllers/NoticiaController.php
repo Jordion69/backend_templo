@@ -126,4 +126,28 @@ class NoticiaController extends Controller
         return redirect()->route('noticias.index')
             ->with('success', 'Noticia deleted successfully');
     }
+    public function firstSeven()
+    {
+        $noticias = Noticia::orderBy('update_date', 'desc')
+                        ->take(7)
+                        ->get();
+
+        return response()->json(['noticias' => $noticias]);
+    }
+    public function getFirstThree()
+    {
+        $noticias = Noticia::orderBy('update_date', 'desc')
+                        ->take(3)
+                        ->get();
+
+        return response()->json(['noticias' => $noticias]);
+    }
+    public function getFromFourthToEnd()
+    {
+        $noticias = Noticia::orderBy('update_date', 'desc')
+                        ->skip(3)
+                        ->get();
+
+        return response()->json(['noticias' => $noticias]);
+    }
 }

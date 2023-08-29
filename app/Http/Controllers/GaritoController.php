@@ -154,6 +154,34 @@ class GaritoController extends Controller
     }
 
 
+    public function getRandomFromCities()
+    {
+        $cities = ['barcelona', 'madrid', 'bilbao', 'logroño'];
+
+        $garitos = collect([]);
+
+        foreach ($cities as $city) {
+            $garito = Garito::where('provincia', $city)
+                            ->inRandomOrder()
+                            ->first();
+            if ($garito) {
+                $garitos->push($garito);
+            }
+        }
+
+        return response()->json(['garitos' => $garitos]);
+    }
+    public function getAllByProvince()
+    {
+        $garitos = Garito::orderBy('provincia')
+                        ->get();
+
+        return response()->json(['garitos' => $garitos]);
+    }
+
+
+
+
     //Esta fiuncion esta por implementar
     // public function validateForm($request)
     // {

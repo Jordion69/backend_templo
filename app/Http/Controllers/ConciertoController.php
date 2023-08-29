@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Concierto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Carbon;
 
 /**
  * Class ConciertoController
@@ -119,5 +120,30 @@ class ConciertoController extends Controller
         }
         return redirect()->route('conciertos.index')
             ->with('success', 'Concierto deleted successfully');
+    }
+
+    public function getFirstTenUpcoming()
+    {
+        $currentDate = Carbon::now();
+
+        $conciertos = Concierto::with('teloneros')
+            ->where('fecha', '>', $currentDate)
+            ->orderBy('fecha')
+            ->take(10)
+            ->get();
+
+        return response()->json(['conciertos' => $conciertos]);
+    }
+
+    public function getAllFromToday()
+    {
+        $currentDate = Carbon::now();
+
+        $conciertos = Concierto::with('teloneros')
+            ->where('fecha', '>=', $currentDate)
+            ->orderBy('fecha')
+            ->get();
+
+        return response()->json(['conciertos' => $conciertos]);
     }
 }
