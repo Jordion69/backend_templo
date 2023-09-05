@@ -13,13 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('teloneros', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('concierto_id')->unsigned();
-            $table->string('telonero');
-            $table->timestamps();
-            $table->foreign('concierto_id')->references('id')->on('conciertos')->onDelete('cascade');
-        });
+        if (Schema::hasTable('conciertos')) {
+            Schema::create('teloneros', function (Blueprint $table) {
+                $table->id();
+                $table->bigInteger('concierto_id')->unsigned();
+                $table->string('telonero');
+                $table->timestamps();
+                $table->foreign('concierto_id')->references('id')->on('conciertos')->onDelete('cascade');
+            });
+        }
     }
 
     /**

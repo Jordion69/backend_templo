@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Noticia;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Class NoticiaController
@@ -44,7 +46,20 @@ class NoticiaController extends Controller
     public function store(Request $request)
     {
 
+        // $validator = Validator::make($request->all(), [
+        //     'titular_inicial' => 'required',
+        //     'texto_inicial' => 'required',
+        //     'foto_inicio' => 'required',
+        //     'alt_foto_inicio' => 'required',
+        //     'titular' => 'required',
+        //     'texto1' => 'required',
+        // ]);
 
+        // if ($validator->fails()) {
+        //     return redirect()->route('garitos.create')
+        //         ->withErrors($validator)
+        //         ->withInput();
+        // }
         request()->validate(Noticia::$rules);
 
         $noticia = request()->except('_token');
@@ -128,7 +143,7 @@ class NoticiaController extends Controller
     }
     public function firstSeven()
     {
-        $noticias = Noticia::orderBy('update_date', 'desc')
+        $noticias = Noticia::orderBy('updated_at', 'desc')
                         ->take(7)
                         ->get();
 
@@ -136,7 +151,7 @@ class NoticiaController extends Controller
     }
     public function getFirstThree()
     {
-        $noticias = Noticia::orderBy('update_date', 'desc')
+        $noticias = Noticia::orderBy('updated_at', 'desc')
                         ->take(3)
                         ->get();
 
@@ -144,7 +159,7 @@ class NoticiaController extends Controller
     }
     public function getFromFourthToEnd()
     {
-        $noticias = Noticia::orderBy('update_date', 'desc')
+        $noticias = Noticia::orderBy('updated_at', 'desc')
                         ->skip(3)
                         ->get();
 

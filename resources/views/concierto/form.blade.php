@@ -42,7 +42,7 @@
         </div>
         <div class="form-group">
             {{ Form::label('fecha_evento') }}
-            {{ Form::text('fecha_evento', $concierto->fecha_evento, ['class' => 'form-control' . ($errors->has('fecha_evento') ? ' is-invalid' : ''), 'placeholder' => 'Fecha Evento']) }}
+            {{ Form::text('fecha_evento', $concierto->fecha_evento, ['type' => 'date', 'class' => 'form-control datepicker' . ($errors->has('fecha_evento') ? ' is-invalid' : ''), 'placeholder' => 'Fecha Evento']) }}
             {!! $errors->first('fecha_evento', '<div class="invalid-feedback">:message</div>') !!}
         </div>
         <div class="form-group">
@@ -61,3 +61,12 @@
         <button type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
     </div>
 </div>
+@section('js')
+<script>
+    $(document).ready(function () {
+        $('.datepicker').datepicker({
+            dateFormat: 'yy-mm-dd' // Establece el formato de fecha a 'YYYY-MM-DD'
+        });
+    });
+</script>
+@stop

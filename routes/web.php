@@ -32,7 +32,7 @@ Auth::routes();
 // Route::post('/EnviarCorreo', [EmailController::class,'index']);
 
 //Web Noticias
-Route::get('/noticias/first-seven', [NoticiaController::class, 'getFirstSeven']);
+Route::get('/noticias/first-seven', [NoticiaController::class, 'firstSeven']);
 Route::get('/noticias/first-three', [NoticiaController::class, 'getFirstThree']);
 Route::get('/noticias/from-fourth', [NoticiaController::class, 'getFromFourthToEnd']);
 

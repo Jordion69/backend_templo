@@ -13,18 +13,23 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('conciertos', function (Blueprint $table) {
-            $table->engine="InnoDB";
-            $table->id();
-            $table->string('nombre');
-            $table->string('banda_principal');
-            $table->text('sala');
-            $table->string('direccion');
-            $table->string('poblacion');
-            $table->string('provincia');
-            $table->text('link_entrada')->nullable();
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('conciertos')) {
+            Schema::create('conciertos', function (Blueprint $table) {
+                $table->engine="InnoDB";
+                $table->id();
+                $table->string('nombre');
+                $table->string('imagen');
+                $table->string('alt_imagen');
+                $table->string('banda_principal');
+                $table->text('sala');
+                $table->string('direccion');
+                $table->string('poblacion');
+                $table->string('provincia');
+                $table->date('fecha_evento');
+                $table->text('link_entrada')->nullable();
+                $table->timestamps();
+            });
+        }
     }
 
     /**

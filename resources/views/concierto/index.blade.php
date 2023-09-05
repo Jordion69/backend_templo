@@ -38,18 +38,12 @@
                                 <thead class="thead">
                                     <tr>
                                         <th>No</th>
-
+                                        <th>id</th>
 										<th>Nombre</th>
-										<th>Banda Principal</th>
 										<th>Sala</th>
-										<!-- <th>Direccion</th> -->
-										<th>Poblacion</th>
 										<th>Provincia</th>
-										<th>Link Entrada</th>
 										<th>Fecha Evento</th>
                                         <th>Imagen</th>
-										<!-- <th>Alt Imagen</th> -->
-
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -57,21 +51,14 @@
                                     @foreach ($conciertos as $concierto)
                                         <tr>
                                             <td>{{ ++$i }}</td>
-
+                                            <td>{{ $concierto->id }}</td>
 											<td>{{ $concierto->nombre }}</td>
-											<td>{{ $concierto->banda_principal }}</td>
 											<td>{{ $concierto->sala }}</td>
-											<!-- <td>{{ $concierto->direccion }}</td> -->
-											<td>{{ $concierto->poblacion }}</td>
 											<td>{{ $concierto->provincia }}</td>
-											<td>{{ $concierto->link_entrada }}</td>
 											<td>{{ $concierto->fecha_evento }}</td>
                                             <td>
-                                                <img src="{{ asset('storage') .'/' . $concierto->imagen}}" width="100" alt="">
-
+                                                <img src="{{ asset('storage') .'/' . $concierto->imagen}}" width="200" alt="">
                                             </td>
-											<!-- <td>{{ $garito->alt_imagen }}</td> -->
-
                                             <td>
                                                 <form action="{{ route('conciertos.destroy',$concierto->id) }}" method="POST">
                                                     <a class="btn btn-sm btn-primary " href="{{ route('conciertos.show',$concierto->id) }}"><i class="fa fa-fw fa-eye"></i> {{ __('Show') }}</a>

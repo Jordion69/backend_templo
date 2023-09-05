@@ -127,8 +127,8 @@ class ConciertoController extends Controller
         $currentDate = Carbon::now();
 
         $conciertos = Concierto::with('teloneros')
-            ->where('fecha', '>', $currentDate)
-            ->orderBy('fecha')
+            ->where('fecha_evento', '>=', $currentDate)
+            ->orderBy('fecha_evento')
             ->take(10)
             ->get();
 
@@ -140,10 +140,37 @@ class ConciertoController extends Controller
         $currentDate = Carbon::now();
 
         $conciertos = Concierto::with('teloneros')
-            ->where('fecha', '>=', $currentDate)
-            ->orderBy('fecha')
+            ->where('fecha_evento', '>=', $currentDate)
+            ->orderBy('fecha_evento')
             ->get();
 
         return response()->json(['conciertos' => $conciertos]);
+    }
+    public function getLastWeekUpdates()
+    {
+        $currentDate = Carbon::now();
+        $sevenDaysAgo = $currentDate->subDays(7);
+
+        $result = Concierto::select('id', 'updated_at')
+            ->where('updated_at', '>=', $sevenDaysAgo)
+            ->orWhereHas('teloneros', function ($query) use ($sevenDaysAgo) {
+                $query->where('updated_at', '>=', $sevenDaysAgo);
+            })
+            ->orderBy('updated_at', 'desc')
+            ->union(
+                Concierto::select('id', 'updated_at')
+                    ->whereIn('id', function ($query) use ($sevenDaysAgo) {
+                        $query->select('concierto_id')
+                            ->from('teloneros')
+                            ->where('updated_at', '>=', $sevenDaysAgo);
+                    })
+            )
+            ->orderBy('updated_at', 'desc')
+            ->get();
+
+        $concertIds = $result->pluck('id');
+        $concerts = Concierto::whereIn('id', $concertIds)->with('teloneros')->get();
+
+        return response()->json(['data' => $concerts]);
     }
 }
