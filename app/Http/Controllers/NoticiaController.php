@@ -60,12 +60,19 @@ class NoticiaController extends Controller
         //         ->withErrors($validator)
         //         ->withInput();
         // }
-        request()->validate(Noticia::$rules);
 
-        $noticia = request()->except('_token');
-        if ($request->hasFile('imagen')) {
-            $noticia['imagen']=$request->file('imagen')->store('uploads', 'public');
+
+        if ($request->hasFile('foto_inicio')) {
+            $noticia['foto_inicio'] = $request->file('foto_inicio')->store('uploads', 'public');
         }
+        $noticia = request()->except('_token');
+        try {
+            $validator = Validator::make($noticia, Noticia::$rules);
+            // $noticia->validate(Noticia::$rules);
+        } catch (\Throwable $th) {
+            dump($th);
+        }
+
         Noticia::insert($noticia);
 
         // $noticia = Noticia::create($request->all());
@@ -115,7 +122,7 @@ class NoticiaController extends Controller
         if ($request->hasFile('imagen')) {
             $noticia1 = Noticia::findOrFail($id);
             Storage::delete('public/' . $noticia1->imagen);
-            $noticia['imagen']=$request->file('imagen')->store('uploads', 'public');
+            $noticia['imagen'] = $request->file('imagen')->store('uploads', 'public');
         }
         Noticia::where('id', '=', $id)->update($noticia);
         $noticia1 = Noticia::findOrFail($id);
@@ -133,7 +140,7 @@ class NoticiaController extends Controller
      */
     public function destroy($id)
     {
-        $noticia1 = Garito::findOrFail($id);
+        $noticia1 = Noticia::findOrFail($id);
         if (Storage::delete('public/' .  $noticia1->imagen)) {
             $noticia = Noticia::find($id)->delete();
         }
