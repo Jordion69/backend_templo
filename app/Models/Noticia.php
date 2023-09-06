@@ -32,6 +32,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Noticia extends Model
 {
+
+  public $timestamps = true;
+  
     static $rules = [
 		'titular_inicial' => 'required',
 		'texto_inicial' => 'required',

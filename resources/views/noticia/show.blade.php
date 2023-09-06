@@ -30,7 +30,7 @@
                         </div>
                         <div class="form-group">
                             <strong>Foto Inicio:</strong>
-                            {{ $noticia->foto_inicio }}
+                            <img src="{{ asset('storage/' . $noticia->foto_inicio) }}" width="100" alt="">
                         </div>
                         <div class="form-group">
                             <strong>Alt Foto Inicio:</strong>

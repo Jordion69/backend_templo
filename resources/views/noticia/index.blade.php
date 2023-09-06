@@ -72,7 +72,8 @@
 											<td>{{ $noticia->titular_inicial }}</td>
 											<td>{{ $noticia->texto_inicial }}</td>
 											<td>
-                                                <img src="{{ asset('storage') .'/' . $noticia->imagen}}" width="100" alt="">
+                                                <img src="{{ asset('storage/' . $noticia->foto_inicio) }}" width="100" alt="">
+
                                             </td>
 											<!-- <td>{{ $noticia->alt_foto_inicio }}</td> -->
 											<td>{{ $noticia->titular }}</td>

@@ -34,7 +34,7 @@
                 <div class="col-lg-6">
                     <div class="form-group">
                         <label for="foto_inicio">foto_inicio</label>
-                        <img src="{{ asset('storage') .'/' . $noticia->foto_inicio}}" width="100" alt="">
+                        <img src="{{ asset('storage/' . $noticia->foto_inicio) }}" width="100" alt="">
                         <input type="file" name="foto_inicio" id="foto_inicio">
                     </div>
                 </div>

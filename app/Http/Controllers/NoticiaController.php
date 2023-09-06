@@ -45,41 +45,27 @@ class NoticiaController extends Controller
      */
     public function store(Request $request)
     {
-
-        // $validator = Validator::make($request->all(), [
-        //     'titular_inicial' => 'required',
-        //     'texto_inicial' => 'required',
-        //     'foto_inicio' => 'required',
-        //     'alt_foto_inicio' => 'required',
-        //     'titular' => 'required',
-        //     'texto1' => 'required',
-        // ]);
-
-        // if ($validator->fails()) {
-        //     return redirect()->route('garitos.create')
-        //         ->withErrors($validator)
-        //         ->withInput();
-        // }
-
-
-        if ($request->hasFile('foto_inicio')) {
-            $noticia['foto_inicio'] = $request->file('foto_inicio')->store('uploads', 'public');
-        }
         $noticia = request()->except('_token');
+    
         try {
             $validator = Validator::make($noticia, Noticia::$rules);
             // $noticia->validate(Noticia::$rules);
+    
+            if ($request->hasFile('foto_inicio')) {
+                $noticia['foto_inicio'] = $request->file('foto_inicio')->store('uploads', 'public');
+            }
+
+            $noticia['created_at'] = now();
+    
+            Noticia::insert($noticia);
+    
+            return redirect()->route('noticias.index')
+                ->with('success', 'Noticia created successfully.');
         } catch (\Throwable $th) {
             dump($th);
         }
-
-        Noticia::insert($noticia);
-
-        // $noticia = Noticia::create($request->all());
-
-        return redirect()->route('noticias.index')
-            ->with('success', 'Noticia created successfully.');
     }
+    
 
     /**
      * Display the specified resource.
@@ -119,10 +105,10 @@ class NoticiaController extends Controller
         request()->validate(Noticia::$rules);
 
         $noticia = request()->except(['_token', '_method']);
-        if ($request->hasFile('imagen')) {
+        if ($request->hasFile('foto_inicio')) {
             $noticia1 = Noticia::findOrFail($id);
-            Storage::delete('public/' . $noticia1->imagen);
-            $noticia['imagen'] = $request->file('imagen')->store('uploads', 'public');
+            Storage::delete('public/' . $noticia1->foto_inicio);
+            $noticia['foto_inicio'] = $request->file('foto_inicio')->store('uploads', 'public');
         }
         Noticia::where('id', '=', $id)->update($noticia);
         $noticia1 = Noticia::findOrFail($id);
@@ -141,7 +127,7 @@ class NoticiaController extends Controller
     public function destroy($id)
     {
         $noticia1 = Noticia::findOrFail($id);
-        if (Storage::delete('public/' .  $noticia1->imagen)) {
+        if (Storage::delete('public/' .  $noticia1->foto_inicio)) {
             $noticia = Noticia::find($id)->delete();
         }
 
