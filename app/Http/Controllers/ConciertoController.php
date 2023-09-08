@@ -45,15 +45,32 @@ class ConciertoController extends Controller
      */
     public function store(Request $request)
     {
-        request()->validate(Concierto::$rules);
         $concierto = request()->except('_token');
-        if ($request->hasFile('imagen')) {
-            $concierto['imagen']=$request->file('imagen')->store('uploads', 'public');
+        try {
+            $validator = Validator::make($concierto, Concierto::$rules);
+            // $noticia->validate(Noticia::$rules);
+
+            if ($request->hasFile('imagen')) {
+                $concierto['imagen'] = $request->file('imagen')->store('uploads', 'public');
+            }
+            $concierto['created_at'] = now();
+            Concierto::insert($concierto);
+            return redirect()->route('conciertos.index')
+                ->with('success', 'Concierto created successfully.');
+        } catch (\Throwable $th) {
+            dump($th);
         }
-        Concierto::insert($concierto);
-        // $concierto = Concierto::create($request->all());
-        return redirect()->route('conciertos.index')
-            ->with('success', 'Concierto created successfully.');
+
+
+        // request()->validate(Concierto::$rules);
+        // $concierto = request()->except('_token');
+        // if ($request->hasFile('imagen')) {
+        //     $concierto['imagen']=$request->file('imagen')->store('uploads', 'public');
+        // }
+        // Concierto::insert($concierto);
+        // // $concierto = Concierto::create($request->all());
+        // return redirect()->route('conciertos.index')
+        //     ->with('success', 'Concierto created successfully.');
     }
 
     /**

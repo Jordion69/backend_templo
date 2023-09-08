@@ -46,26 +46,22 @@ class NoticiaController extends Controller
     public function store(Request $request)
     {
         $noticia = request()->except('_token');
-    
         try {
             $validator = Validator::make($noticia, Noticia::$rules);
             // $noticia->validate(Noticia::$rules);
-    
+
             if ($request->hasFile('foto_inicio')) {
                 $noticia['foto_inicio'] = $request->file('foto_inicio')->store('uploads', 'public');
             }
-
             $noticia['created_at'] = now();
-    
             Noticia::insert($noticia);
-    
             return redirect()->route('noticias.index')
                 ->with('success', 'Noticia created successfully.');
         } catch (\Throwable $th) {
             dump($th);
         }
     }
-    
+
 
     /**
      * Display the specified resource.
@@ -103,7 +99,6 @@ class NoticiaController extends Controller
     public function update(Request $request, $id)
     {
         request()->validate(Noticia::$rules);
-
         $noticia = request()->except(['_token', '_method']);
         if ($request->hasFile('foto_inicio')) {
             $noticia1 = Noticia::findOrFail($id);
@@ -130,7 +125,6 @@ class NoticiaController extends Controller
         if (Storage::delete('public/' .  $noticia1->foto_inicio)) {
             $noticia = Noticia::find($id)->delete();
         }
-
         return redirect()->route('noticias.index')
             ->with('success', 'Noticia deleted successfully');
     }

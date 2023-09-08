@@ -52,6 +52,4 @@ class Concierto extends Model
     {
         return $this->hasMany('App\Models\Telonero', 'concierto_id', 'id');
     }
-
-
 }

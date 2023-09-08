@@ -46,9 +46,7 @@ class TeloneroController extends Controller
     public function store(Request $request)
     {
         request()->validate(Telonero::$rules);
-
         $telonero = Telonero::create($request->all());
-
         return redirect()->route('teloneros.index')
             ->with('success', 'Telonero created successfully.');
     }

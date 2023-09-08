@@ -46,47 +46,32 @@ class GaritoController extends Controller
      */
     public function store(Request $request)
     {
-        // $validator = Validator::make($request->all(), [
-        //     'nombre_garito'      => 'required|max:255',
-        //     'nombre_duenyo'      => 'required|max:255',
-        //     'mail'               => 'nullable|email|max:255',
-        //     'direccion'          => 'required|max:255',
-        //     'poblacion'          => 'required|max:255',
-        //     'codigo_postal'      => 'required|numeric',
-        //     'comunidad_autonoma' => 'required|max:255',
-        //     'provincia'          => 'required|max:255',
-        //     'telefono'           => 'nullable|numeric',
-        //     'telefono2'          => 'nullable|numeric',
-        //     'facebook'           => 'nullable|max:255',
-        //     'instagram'          => 'nullable|max:255',
-        //     'frase'              => 'nullable|max:255',
-        //     'sentence'           => 'nullable|max:255',
-        //     'visitado'           => 'required|boolean',
-        //     'ratio_colaboracion' => 'nullable|numeric',
-        //     'imagen'             => 'required|image|max:2048',
-        //     'alt_imagen'         => 'required|max:255',
-        //     'latitud'            => 'required|numeric',
-        //     'longitud'           => 'required|numeric',
-        //     'tendencia'          => 'nullable|max:255',
-        //     // Agrega más reglas de validación para otros campos según tus necesidades
-        // ]);
+        $garito = request()->except('_token');
+        try {
+            $validator = Validator::make($garito, Garito::$rules);
+            // $noticia->validate(Noticia::$rules);
 
-        // if ($validator->fails()) {
-        //     return redirect()->route('garitos.create')
-        //         ->withErrors($validator)
-        //         ->withInput();
-        // }
-        request()->validate(Garito::$rules);
+            if ($request->hasFile('imagen')) {
+                $garito['imagen'] = $request->file('imagen')->store('uploads', 'public');
+            }
+            $garito['created_at'] = now();
+            Garito::insert($garito);
+            return redirect()->route('garitos.index')
+                ->with('success', 'Garito created successfully.');
+        } catch (\Throwable $th) {
+            dump($th);
+        }
+        // request()->validate(Garito::$rules);
         //LLAMADA A LA FUNCION QUE NO FUNCIONA
         // $this->validateForm($requestData);
-        $garito = request()->except('_token');
-        if ($request->hasFile('imagen')) {
-            $garito['imagen']=$request->file('imagen')->store('uploads', 'public');
-        }
-        Garito::insert($garito);
+        // $garito = request()->except('_token');
+        // if ($request->hasFile('imagen')) {
+        //     $garito['imagen']=$request->file('imagen')->store('uploads', 'public');
+        // }
+        // Garito::insert($garito);
 
-        return redirect()->route('garitos.index')
-            ->with('success', 'Garito created successfully.');
+        // return redirect()->route('garitos.index')
+        //     ->with('success', 'Garito created successfully.');
     }
 
     /**
