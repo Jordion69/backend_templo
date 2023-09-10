@@ -5,6 +5,8 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Database\Seeders\CreateSuperUserSeeder;
+use Database\Seeders\Comunidades;
+use Database\Seeders\Provincias;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,5 +18,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([CreateSuperUserSeeder::class]);
+        $this->call([Comunidades::class]);
+        $this->call([Provincias::class]);
     }
 }

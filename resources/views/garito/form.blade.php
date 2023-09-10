@@ -53,9 +53,12 @@
             </div>
             <div class="col-3">
                 <div class="form-group">
-                    {{ Form::label('provincia') }}
+                    <!-- {{ Form::label('provincia') }}
                     {{ Form::text('provincia', $garito->provincia, ['class' => 'form-control' . ($errors->has('provincia') ? ' is-invalid' : ''), 'placeholder' => 'Provincia']) }}
-                    {!! $errors->first('provincia', '<div class="invalid-feedback">:message</div>') !!}
+                    {!! $errors->first('provincia', '<div class="invalid-feedback">:message</div>') !!} -->
+                    {{ Form::label('provincia_id', 'Provincia') }}
+                    {{ Form::select('provincia_id', $provincias, null, ['class' => 'form-control', 'placeholder' => 'Seleccione una provincia', 'id' => 'provincia_id']) }}
+                    {!! $errors->first('provincia_id', '<div class="invalid-feedback">:message</div>') !!}
                 </div>
             </div>
             <div class="col-3">
@@ -67,9 +70,11 @@
             </div>
             <div class="col-6 offset-6">
                 <div class="form-group">
-                    {{ Form::label('comunidad_autonoma') }}
+                    <!-- {{ Form::label('comunidad_autonoma') }}
                     {{ Form::text('comunidad_autonoma', $garito->comunidad_autonoma, ['class' => 'form-control' . ($errors->has('comunidad_autonoma') ? ' is-invalid' : ''), 'placeholder' => 'Comunidad Autonoma']) }}
-                    {!! $errors->first('comunidad_autonoma', '<div class="invalid-feedback">:message</div>') !!}
+                    {!! $errors->first('comunidad_autonoma', '<div class="invalid-feedback">:message</div>') !!} -->
+                    {{ Form::label('comunidad_autonoma', 'Comunidad Autonoma') }}
+                    {{ Form::text('comunidad_autonoma', '', ['class' => 'form-control', 'readonly' => 'readonly', 'id' => 'comunidad_autonoma']) }}
                 </div>
             </div>
         </div>
@@ -173,3 +178,17 @@
         <a href="{{ route('garitos.index') }}" class="btn btn-danger">{{ __('Cancel') }}</a>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        $('#provincia_id').change(function() {
+            var provinciaId = $(this).val();
+            $.ajax({
+                url: '/get-comunidad-autonoma/' + provinciaId, // Cambia la URL según tu configuración
+                type: 'GET',
+                success: function(data) {
+                    $('#comunidad_autonoma').val(data);
+                }
+            });
+        });
+    });
+</script>

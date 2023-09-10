@@ -10,6 +10,10 @@ use App\Http\Controllers\NoticiaController;
 use App\Http\Controllers\ConciertoController;
 use App\Http\Controllers\TeloneroController;
 use App\Http\Controllers\EmailController;
+use App\Http\Controllers\ComunidadesAutonomaController;
+use App\Http\Controllers\ProvinciaController;
+use App\Models\ComunidadesAutonoma;
+use App\Models\Provincia;
 use Fruitcake\Cors\CorsFacade as Cors;
 
 /*
@@ -62,3 +66,7 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
     });
     Route::resource('users', UsersController::class);
 });
+
+Route::resource('comunidades_autonomas', ComunidadesAutonomaController::class);
+Route::resource('provicias', ProvinciaController::class);
+Route::get('/get-comunidad-autonoma/{provinciaId}', [ProvinciaController::class, 'getComunidadAutonoma']);

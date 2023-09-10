@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Garito;
+use App\Models\Provincia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
@@ -35,7 +36,9 @@ class GaritoController extends Controller
     public function create()
     {
         $garito = new Garito();
-        return view('garito.create', compact('garito'));
+        $provincias = Provincia::orderBy('provincia', 'asc')->pluck('provincia', 'id');
+        dd($provincias);
+        return view('garito.create', compact('garito', 'provincias'));
     }
 
     /**
