@@ -56,8 +56,8 @@
                     <!-- {{ Form::label('provincia') }}
                     {{ Form::text('provincia', $garito->provincia, ['class' => 'form-control' . ($errors->has('provincia') ? ' is-invalid' : ''), 'placeholder' => 'Provincia']) }}
                     {!! $errors->first('provincia', '<div class="invalid-feedback">:message</div>') !!} -->
-                    {{ Form::label('provincia_id', 'Provincia') }}
-                    {{ Form::select('provincia_id', $provincias, null, ['class' => 'form-control', 'placeholder' => 'Seleccione una provincia', 'id' => 'provincia_id']) }}
+                    {{ Form::label('provincia', 'Provincia') }}
+                    {{ Form::select('provincia',  $provincias, $garito->provincia, ['class' => 'form-control', 'placeholder' => 'Seleccione una provincia', 'id' => 'provincia']) }}
                     {!! $errors->first('provincia_id', '<div class="invalid-feedback">:message</div>') !!}
                 </div>
             </div>
@@ -74,7 +74,7 @@
                     {{ Form::text('comunidad_autonoma', $garito->comunidad_autonoma, ['class' => 'form-control' . ($errors->has('comunidad_autonoma') ? ' is-invalid' : ''), 'placeholder' => 'Comunidad Autonoma']) }}
                     {!! $errors->first('comunidad_autonoma', '<div class="invalid-feedback">:message</div>') !!} -->
                     {{ Form::label('comunidad_autonoma', 'Comunidad Autonoma') }}
-                    {{ Form::text('comunidad_autonoma', '', ['class' => 'form-control', 'readonly' => 'readonly', 'id' => 'comunidad_autonoma']) }}
+                    {{ Form::text('comunidad_autonoma', $garito->comunidad_autonoma, ['class' => 'form-control', 'readonly' => 'readonly', 'id' => 'comunidad_autonoma']) }}
                 </div>
             </div>
         </div>

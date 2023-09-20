@@ -49,6 +49,7 @@ class GaritoController extends Controller
     public function store(Request $request)
     {
         $garito = request()->except('_token');
+        $garito['comunidad_autonoma'] = Provincia::find($garito['provincia'])->comunidadesAutonoma->comunidad;
         try {
             $validator = Validator::make($garito, Garito::$rules);
             // $noticia->validate(Noticia::$rules);
@@ -98,8 +99,8 @@ class GaritoController extends Controller
     public function edit($id)
     {
         $garito = Garito::find($id);
-
-        return view('garito.edit', compact('garito'));
+        $provincias = Provincia::orderBy('provincia', 'asc')->pluck('provincia', 'id');;
+        return view('garito.edit', compact('garito', 'provincias'));
     }
 
     /**
@@ -112,6 +113,7 @@ class GaritoController extends Controller
     public function update(Request $request, $id)
     {
         $garito = request()->except(['_token', '_method']);
+        $garito['comunidad_autonoma'] = Provincia::find($garito['provincia'])->comunidadesAutonoma->comunidad;
         if ($request->hasFile('imagen')) {
             $garito1 = Garito::findOrFail($id);
             Storage::delete('public/' . $garito1->imagen);

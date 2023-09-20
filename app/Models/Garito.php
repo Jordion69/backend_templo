@@ -47,7 +47,7 @@ class Garito extends Model
 		'codigo_postal' => 'required',
 		'comunidad_autonoma' => 'required',
 		'visitado' => 'required',
-		'imagen' => 'required',
+		'imagen' => 'required | max:2048 | mimes:jpeg,jpg,png',
 		'alt_imagen' => 'required',
 		'latitud' => 'required',
 		'longitud' => 'required',
