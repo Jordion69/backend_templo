@@ -109,6 +109,7 @@ class ProvinciaController extends Controller
 
     public function getComunidadAutonoma($provinciaId)
     {
+        dd("hola");
         // Recupera la provincia según $provinciaId
         $provincia = Provincia::find($provinciaId);
 

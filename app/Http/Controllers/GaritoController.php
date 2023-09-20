@@ -37,7 +37,6 @@ class GaritoController extends Controller
     {
         $garito = new Garito();
         $provincias = Provincia::orderBy('provincia', 'asc')->pluck('provincia', 'id');
-        dd($provincias);
         return view('garito.create', compact('garito', 'provincias'));
     }
 
@@ -141,7 +140,11 @@ class GaritoController extends Controller
 
     public function getRandomSeven()
     {
-        return "hola";
+        $garitos = Garito::inRandomOrder()
+        ->take(7)
+        ->get();
+
+        return response()->json(['garitos' => $garitos]);
     }
     public function getRandomFromCities()
     {
@@ -167,42 +170,4 @@ class GaritoController extends Controller
 
         return response()->json(['garitos' => $garitos]);
     }
-
-
-
-
-    //Esta fiuncion esta por implementar
-    // public function validateForm($request)
-    // {
-    //     $validator = Validator::make($request, [
-    //         'nombre_garito'      => 'required|max:255',
-    //         'nombre_duenyo'      => 'required|max:255',
-    //         'mail'               => 'nullable|email|max:255',
-    //         'direccion'          => 'required|max:255',
-    //         'poblacion'          => 'required|max:255',
-    //         'codigo_postal'      => 'required|numeric',
-    //         'comunidad_autonoma' => 'required|max:255',
-    //         'provincia'          => 'required|max:255',
-    //         'telefono'           => 'nullable|numeric',
-    //         'telefono2'          => 'nullable|numeric',
-    //         'facebook'           => 'nullable|max:255',
-    //         'instagram'          => 'nullable|max:255',
-    //         'frase'              => 'nullable|max:255',
-    //         'sentence'           => 'nullable|max:255',
-    //         'visitado'           => 'nullable|boolean',
-    //         'ratio_colaboracion' => 'nullable|numeric',
-    //         'imagen'             => 'nullable|image|max:2048',
-    //         'alt_imagen'         => 'nullable|max:255',
-    //         'latitud'            => 'nullable|numeric',
-    //         'longitud'           => 'nullable|numeric',
-    //         'tendencia'          => 'nullable|max:255',
-    //         // Agrega más reglas de validación para otros campos según tus necesidades
-    //     ]);
-
-    //     if ($validator->fails()) {
-    //         return redirect()->route('garitos.create')
-    //             ->withErrors($validator)
-    //             ->withInput();
-    //     }
-    // }
 }

@@ -15,7 +15,22 @@ return [
     |
     */
 
-    'paths' => ['api/*', 'sanctum/csrf-cookie', 'EnviarCorreo'],
+    // 'paths' => ['api/*', 'sanctum/csrf-cookie', 'EnviarCorreo'],
+
+    'paths' => [
+        'api/*',
+        'sanctum/csrf-cookie',
+        'noticias/first-seven',
+        'noticias/first-three',
+        'noticias/from-fourth',
+        'garitos/random-seven',
+        'garitos/random-from-cities',
+        'garitos/all-by-province',
+        'conciertos-first-ten-upcoming',
+        'conciertos-last-week-updates',
+        'conciertos-all-from-today',
+        'EnviarCorreo',
+    ],
 
     'allowed_methods' => ['*'],
 

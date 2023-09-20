@@ -178,6 +178,7 @@
         <a href="{{ route('garitos.index') }}" class="btn btn-danger">{{ __('Cancel') }}</a>
     </div>
 </div>
+@section('js')
 <script>
     $(document).ready(function() {
         $('#provincia_id').change(function() {
@@ -192,3 +193,4 @@
         });
     });
 </script>
+@stop
