@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Provincia extends Model
 {
-    
+
     static $rules = [
 		'comunidad_autonoma_id' => 'required',
 		'provincia' => 'required',
@@ -42,6 +42,4 @@ class Provincia extends Model
     {
         return $this->hasOne('App\Models\ComunidadesAutonoma', 'id', 'comunidad_autonoma_id');
     }
-    
-
 }

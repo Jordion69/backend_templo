@@ -50,6 +50,7 @@ class GaritoController extends Controller
     {
         $garito = request()->except('_token');
         $garito['comunidad_autonoma'] = Provincia::find($garito['provincia'])->comunidadesAutonoma->comunidad;
+        $garito['provincia'] = Provincia::find($garito['provincia'])->provincia;
         try {
             $validator = Validator::make($garito, Garito::$rules);
             // $noticia->validate(Noticia::$rules);
@@ -64,17 +65,6 @@ class GaritoController extends Controller
         } catch (\Throwable $th) {
             dump($th);
         }
-        // request()->validate(Garito::$rules);
-        //LLAMADA A LA FUNCION QUE NO FUNCIONA
-        // $this->validateForm($requestData);
-        // $garito = request()->except('_token');
-        // if ($request->hasFile('imagen')) {
-        //     $garito['imagen']=$request->file('imagen')->store('uploads', 'public');
-        // }
-        // Garito::insert($garito);
-
-        // return redirect()->route('garitos.index')
-        //     ->with('success', 'Garito created successfully.');
     }
 
     /**
@@ -99,7 +89,7 @@ class GaritoController extends Controller
     public function edit($id)
     {
         $garito = Garito::find($id);
-        $provincias = Provincia::orderBy('provincia', 'asc')->pluck('provincia', 'id');;
+        $provincias = Provincia::orderBy('provincia', 'asc')->pluck('provincia', 'id');
         return view('garito.edit', compact('garito', 'provincias'));
     }
 
