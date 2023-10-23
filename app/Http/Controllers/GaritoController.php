@@ -23,7 +23,6 @@ class GaritoController extends Controller
     public function index()
     {
         $garitos = Garito::paginate();
-
         return view('garito.index', compact('garitos'))
             ->with('i', (request()->input('page', 1) - 1) * $garitos->perPage());
     }
@@ -140,7 +139,7 @@ class GaritoController extends Controller
     }
     public function getRandomFromCities()
     {
-        $cities = ['barcelona', 'madrid', 'bilbao', 'logroño'];
+        $cities = ['barcelona', 'madrid', 'bilbao', 'Panplona'];
 
         $garitos = collect([]);
 

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Concierto;
+use App\Models\Provincia;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Carbon;
 
@@ -34,7 +36,8 @@ class ConciertoController extends Controller
     public function create()
     {
         $concierto = new Concierto();
-        return view('concierto.create', compact('concierto'));
+        $provincias = Provincia::orderBy('provincia', 'asc')->pluck('provincia', 'id');
+        return view('concierto.create', compact('concierto', 'provincias'));
     }
 
     /**
@@ -46,6 +49,7 @@ class ConciertoController extends Controller
     public function store(Request $request)
     {
         $concierto = request()->except('_token');
+        $concierto['provincia'] = Provincia::find($concierto['provincia'])->provincia;
         try {
             $validator = Validator::make($concierto, Concierto::$rules);
             // $noticia->validate(Noticia::$rules);
@@ -111,9 +115,9 @@ class ConciertoController extends Controller
         request()->validate(Concierto::$rules);
         $concierto = request()->except(['_token', '_method']);
         if ($request->hasFile('imagen')) {
-            $concierto1 = Garito::findOrFail($id);
+            $concierto1 = Concierto::findOrFail($id);
             Storage::delete('public/' . $concierto1->imagen);
-            $concierto['imagen']=$request->file('imagen')->store('uploads', 'public');
+            $concierto['imagen'] = $request->file('imagen')->store('uploads', 'public');
         }
         Concierto::where('id', '=', $id)->update($concierto);
         $concierto1 = Concierto::findOrFail($id);

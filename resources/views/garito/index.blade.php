@@ -87,7 +87,8 @@
 											<td>{{ $garito->visitado }}</td>
 											<td>{{ $garito->ratio_colaboracion }}</td>
 											<td>
-                                                <img src="{{ asset('storage') .'/' . $garito->imagen}}" width="100" alt="">
+                                                
+                                                <img src="{{ asset('storage/' . $garito->imagen) }}" width="100" alt="">
 
                                             </td>
 											<!-- <td>{{ $garito->alt_imagen }}</td>

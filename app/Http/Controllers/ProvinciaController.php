@@ -126,4 +126,9 @@ class ProvinciaController extends Controller
 
         return response()->json(['comunidad_autonoma' => $comunidadAutonoma->comunidad]);
     }
+    public function getProvinceList()
+    {
+        $provincias = Provincia::orderBy('provincia', 'asc')->get();
+        return response()->json($provincias);
+    }
 }

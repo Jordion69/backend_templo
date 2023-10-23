@@ -31,9 +31,12 @@
             {!! $errors->first('poblacion', '<div class="invalid-feedback">:message</div>') !!}
         </div>
         <div class="form-group">
-            {{ Form::label('provincia') }}
+            <!-- {{ Form::label('provincia') }}
             {{ Form::text('provincia', $concierto->provincia, ['class' => 'form-control' . ($errors->has('provincia') ? ' is-invalid' : ''), 'placeholder' => 'Provincia']) }}
-            {!! $errors->first('provincia', '<div class="invalid-feedback">:message</div>') !!}
+             {!! $errors->first('provincia', '<div class="invalid-feedback">:message</div>') !!} -->
+            {{ Form::label('provincia', 'Provincia') }}
+            {{ Form::select('provincia',  $provincias, $concierto->provincia, ['class' => 'form-control', 'placeholder' => 'Seleccione una provincia', 'id' => 'provincia']) }}
+            {!! $errors->first('provincia_id', '<div class="invalid-feedback">:message</div>') !!}
         </div>
         <div class="form-group">
             {{ Form::label('link_entrada') }}
