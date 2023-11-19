@@ -18,8 +18,23 @@ class NoticiaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $searchTerm = $request->input('search');
+
+        $query = Noticia::query();
+
+        if ($searchTerm) {
+            $query->where('titular_inicial', 'LIKE', '%' . $searchTerm . '%')
+                ->orWhere('texto_inicial', 'LIKE', '%' . $searchTerm . '%')
+                ->orWhere('titular', 'LIKE', '%' . $searchTerm . '%')
+                ->orWhere('texto1', 'LIKE', '%' . $searchTerm . '%')
+                ->orWhere('texto2', 'LIKE', '%' . $searchTerm . '%')
+                ->orWhere('texto3', 'LIKE', '%' . $searchTerm . '%')
+                ->orWhere('texto4', 'LIKE', '%' . $searchTerm . '%')
+                ->orWhere('palabras_clave', 'LIKE', '%' . $searchTerm . '%');
+            // Agrega aquí más condiciones de búsqueda si es necesario
+        }
         $noticias = Noticia::paginate();
 
         return view('noticia.index', compact('noticias'))

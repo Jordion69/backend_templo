@@ -17,10 +17,19 @@ class TeloneroController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $teloneros = Telonero::paginate();
+        $searchTerm = $request->input('search');
 
+        $query = Telonero::query();
+
+        if ($searchTerm) {
+            $query->where('concierto_id', 'LIKE', '%' . $searchTerm . '%')
+                ->orWhere('telonero', 'LIKE', '%' . $searchTerm . '%');
+            // Agrega aquí más condiciones de búsqueda si es necesario
+        }
+
+        $teloneros = $query->paginate();
         return view('telonero.index', compact('teloneros'))
             ->with('i', (request()->input('page', 1) - 1) * $teloneros->perPage());
     }

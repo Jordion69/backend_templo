@@ -20,11 +20,25 @@ class GaritoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $garitos = Garito::paginate();
+        $searchTerm = $request->input('search');
+
+        $query = Garito::query();
+
+        if ($searchTerm) {
+            $query->where('nombre_garito', 'LIKE', '%' . $searchTerm . '%')
+                ->orWhere('provincia', 'LIKE', '%' . $searchTerm . '%');
+            // Agrega aquí más condiciones de búsqueda si es necesario
+        }
+
+        $garitos = $query->paginate();
+
         return view('garito.index', compact('garitos'))
-            ->with('i', (request()->input('page', 1) - 1) * $garitos->perPage());
+                ->with('i', (request()->input('page', 1) - 1) * $garitos->perPage());
+        // $garitos = Garito::paginate();
+        // return view('garito.index', compact('garitos'))
+        //     ->with('i', (request()->input('page', 1) - 1) * $garitos->perPage());
     }
 
     /**
@@ -57,7 +71,9 @@ class GaritoController extends Controller
             if ($request->hasFile('imagen')) {
                 $garito['imagen'] = $request->file('imagen')->store('uploads', 'public');
             }
-            $garito['created_at'] = now();
+            $currentTime = now();
+            $garito['created_at'] = $currentTime;
+            $garito['updated_at'] = $currentTime;
             Garito::insert($garito);
             return redirect()->route('garitos.index')
                 ->with('success', 'Garito created successfully.');

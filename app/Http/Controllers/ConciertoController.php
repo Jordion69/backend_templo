@@ -20,11 +20,29 @@ class ConciertoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $conciertos = Concierto::paginate();
+        // $conciertos = Concierto::paginate();
 
-        return view('concierto.index', compact('conciertos'))
+        // return view('concierto.index', compact('conciertos'))
+        //     ->with('i', (request()->input('page', 1) - 1) * $conciertos->perPage());
+        $searchTerm = $request->input('search');
+
+        $query = Concierto::query();
+
+        if ($searchTerm) {
+            $query->where('nombre', 'LIKE', '%' . $searchTerm . '%')
+                ->orWhere('banda_principal', 'LIKE', '%' . $searchTerm . '%')
+                ->orWhere('sala', 'LIKE', '%' . $searchTerm . '%')
+                ->orWhere('poblacion', 'LIKE', '%' . $searchTerm . '%')
+                ->orWhere('provincia', 'LIKE', '%' . $searchTerm . '%')
+                ->orWhere('fecha_evento', 'LIKE', '%' . $searchTerm . '%');
+            // Agrega aquí más condiciones de búsqueda si es necesario
+        }
+
+        $conciertos = $query->paginate();
+
+         return view('concierto.index', compact('conciertos'))
             ->with('i', (request()->input('page', 1) - 1) * $conciertos->perPage());
     }
 
@@ -57,7 +75,9 @@ class ConciertoController extends Controller
             if ($request->hasFile('imagen')) {
                 $concierto['imagen'] = $request->file('imagen')->store('uploads', 'public');
             }
-            $concierto['created_at'] = now();
+            $currrentTime = now();
+            $concierto['created_at'] = $currrentTime;
+            $concierto['updated_at'] = $currrentTime;
             Concierto::insert($concierto);
             return redirect()->route('conciertos.index')
                 ->with('success', 'Concierto created successfully.');

@@ -9,7 +9,16 @@
 @section('title', 'Teloneros | Dashboard')
 
 @section('content_header')
-    <h1>Teloneros</h1>
+<div class="card-header">
+        <h1>Teloneros</h1>
+    <!-- Otros elementos de la cabecera... -->
+
+    <!-- Formulario de Búsqueda -->
+    <form action="{{ route('teloneros.index') }}" method="GET" class="float-right">
+        <input type="text" name="search" id="searchInput" placeholder="Buscar en Teloneros">
+        <button type="submit" class="btn btn-primary btn-sm">Buscar</button>
+    </form>
+</div>
 @stop
 
 @section('content')
@@ -84,4 +93,24 @@
 @stop
 
 @section('js')
+<script>
+    function searchFunction() {
+        var input = document.getElementById("searchInput");
+        var filter = input.value.toUpperCase();
+        var table = document.getElementById("myTable");
+        var tr = table.getElementsByTagName("tr");
+
+        for (var i = 0; i < tr.length; i++) {
+            var td = tr[i].getElementsByTagName("td")[1]; // Ajusta este índice según la columna que quieres buscar
+            if (td) {
+                var txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
 @stop
