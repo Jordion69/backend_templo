@@ -68,7 +68,9 @@ class NoticiaController extends Controller
             if ($request->hasFile('foto_inicio')) {
                 $noticia['foto_inicio'] = $request->file('foto_inicio')->store('uploads', 'public');
             }
-            $noticia['created_at'] = now();
+            $currrentTime = now();
+            $noticia['created_at'] = $currrentTime;
+            $noticia['updated_at'] = $currrentTime;
             Noticia::insert($noticia);
             return redirect()->route('noticias.index')
                 ->with('success', 'Noticia created successfully.');

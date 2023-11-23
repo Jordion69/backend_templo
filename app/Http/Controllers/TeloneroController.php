@@ -55,6 +55,9 @@ class TeloneroController extends Controller
     public function store(Request $request)
     {
         request()->validate(Telonero::$rules);
+        $currrentTime = now();
+        $telonero['created_at'] = $currrentTime;
+        $telonero['updated_at'] = $currrentTime;
         $telonero = Telonero::create($request->all());
         return redirect()->route('teloneros.index')
             ->with('success', 'Telonero created successfully.');
