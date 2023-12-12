@@ -155,12 +155,12 @@ class GaritoController extends Controller
     }
     public function getRandomFromCities()
     {
-        $cities = ['barcelona', 'madrid', 'bilbao', 'Panplona'];
+        $cities = ['barcelona', 'madrid', 'bilbao', 'pamplona'];
 
         $garitos = collect([]);
 
         foreach ($cities as $city) {
-            $garito = Garito::where('provincia', $city)
+            $garito = Garito::where('poblacion', $city)
                             ->inRandomOrder()
                             ->first();
             if ($garito) {
@@ -172,7 +172,7 @@ class GaritoController extends Controller
     }
     public function getAllByProvince()
     {
-        $garitos = Garito::orderBy('provincia')
+        $garitos = Garito::orderBy('comunidad_autonoma')
                         ->get();
 
         return response()->json(['garitos' => $garitos]);

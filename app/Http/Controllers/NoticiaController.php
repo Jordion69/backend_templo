@@ -165,6 +165,7 @@ class NoticiaController extends Controller
     {
         $noticias = Noticia::orderBy('updated_at', 'desc')
                         ->skip(3)
+                        ->take(1000)
                         ->get();
 
         return response()->json(['noticias' => $noticias]);

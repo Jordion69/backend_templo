@@ -308,6 +308,17 @@ return [
             'icon' => 'fas fa-fw fa-home'
         ],
         [
+            'text'        => 'Backend',
+            'icon'        => 'fas fa-fw fa-user',
+            'submenu'      => [
+                [
+                    'text' => 'Garitos',
+                    'route' => 'backend.garitos.index',
+                    'active' => ['backend/garitos/*'],
+                ],
+            ]
+        ],
+        [
             'text'        => 'Users',
             'icon'        => 'fas fa-fw fa-users',
             'submenu'      => [

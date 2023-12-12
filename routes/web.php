@@ -41,6 +41,9 @@ Auth::routes();
 
 
 Route::group(['middleware' => ['auth', 'permission']], function () {
+    Route::group(['prefix' => 'backend', 'as' => 'backend.'], function () {
+        Route::resource('garitos', GaritoController::class);
+    });
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('garitos', GaritoController::class);
     Route::resource('noticias', NoticiaController::class);
