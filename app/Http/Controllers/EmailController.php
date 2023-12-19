@@ -19,7 +19,7 @@ class EmailController extends Controller
 
         try {
             Mail::send('emails.correo', $data, function ($message) use ($data) {
-                $message->to('templedelmetall@gmail.com', $data['nombre'], $data['email'], $data['mensaje'])
+                $message->to('templodelmetal1969@gmail.com', $data['nombre'], $data['email'], $data['mensaje'])
                     ->subject($data['asunto']);
             });
         } catch (\Throwable $th) {

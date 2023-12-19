@@ -72,8 +72,24 @@ class ConciertoController extends Controller
             $validator = Validator::make($concierto, Concierto::$rules);
             // $noticia->validate(Noticia::$rules);
 
+            // if ($request->hasFile('imagen')) {
+            //     $concierto['imagen'] = $request->file('imagen')->store('uploads', 'public');
+            // }
             if ($request->hasFile('imagen')) {
-                $concierto['imagen'] = $request->file('imagen')->store('uploads', 'public');
+                $image = $request->file('imagen');
+                $hash = md5_file($image->getRealPath());
+
+                $existingImage = Concierto::where('image_hash', $hash)->first();
+                if ($existingImage) {
+                    // Si la imagen ya existe, reutiliza la existente
+                    $concierto['imagen'] = $existingImage->imagen;
+                    $concierto['image_hash'] = $existingImage->image_hash; // Asegúrate de asignar el hash existente
+                } else {
+                    // Si la imagen es nueva, la sube y guarda el hash
+                    $path = $image->store('uploads', 'public');
+                    $concierto['imagen'] = $path;
+                    $concierto['image_hash'] = $hash;
+                }
             }
             $currrentTime = now();
             $concierto['created_at'] = $currrentTime;
@@ -84,17 +100,6 @@ class ConciertoController extends Controller
         } catch (\Throwable $th) {
             dump($th);
         }
-
-
-        // request()->validate(Concierto::$rules);
-        // $concierto = request()->except('_token');
-        // if ($request->hasFile('imagen')) {
-        //     $concierto['imagen']=$request->file('imagen')->store('uploads', 'public');
-        // }
-        // Concierto::insert($concierto);
-        // // $concierto = Concierto::create($request->all());
-        // return redirect()->route('conciertos.index')
-        //     ->with('success', 'Concierto created successfully.');
     }
 
     /**
@@ -134,10 +139,27 @@ class ConciertoController extends Controller
     {
         request()->validate(Concierto::$rules);
         $concierto = request()->except(['_token', '_method']);
+        // if ($request->hasFile('imagen')) {
+        //     $concierto1 = Concierto::findOrFail($id);
+        //     Storage::delete('public/' . $concierto1->imagen);
+        //     $concierto['imagen'] = $request->file('imagen')->store('uploads', 'public');
+        // }
         if ($request->hasFile('imagen')) {
             $concierto1 = Concierto::findOrFail($id);
-            Storage::delete('public/' . $concierto1->imagen);
-            $concierto['imagen'] = $request->file('imagen')->store('uploads', 'public');
+
+            $image = $request->file('imagen');
+            $hash = md5_file($image->getRealPath());
+
+            $existingImage = Concierto::where('image_hash', $hash)->first();
+            if ($existingImage) {
+                // Si la imagen ya existe, reutiliza la existente
+                $concierto['imagen'] = $existingImage->imagen;
+            } else {
+                // Si la imagen es nueva, la sube y guarda el hash
+                Storage::delete('public/' . $concierto1->imagen);
+                $concierto['imagen'] = $image->store('uploads', 'public');
+                $concierto['image_hash'] = $hash; // Asegúrate de que 'image_hash' esté en tu modelo y tabla de la DB
+            }
         }
         Concierto::where('id', '=', $id)->update($concierto);
         $concierto1 = Concierto::findOrFail($id);

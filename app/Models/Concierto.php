@@ -42,7 +42,18 @@ class Concierto extends Model
      *
      * @var array
      */
-    protected $fillable = ['nombre','banda_principal','sala','direccion','poblacion','provincia','link_entrada','fecha_evento'];
+    protected $fillable = [
+        'nombre',
+        'banda_principal',
+        'sala',
+        'direccion',
+        'poblacion',
+        'provincia',
+        'link_entrada',
+        'fecha_evento',
+        'imagen',
+        'image_hash'
+    ];
 
 
     /**
