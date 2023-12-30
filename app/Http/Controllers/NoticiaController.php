@@ -6,6 +6,7 @@ use App\Models\Noticia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class NoticiaController
@@ -115,7 +116,7 @@ class NoticiaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        request()->validate(Noticia::$rules);
+        $validatedData = request()->validate(Noticia::$rules);
         $noticia = request()->except(['_token', '_method']);
         if ($request->hasFile('foto_inicio')) {
             $noticia1 = Noticia::findOrFail($id);
@@ -126,7 +127,7 @@ class NoticiaController extends Controller
         $noticia1 = Noticia::findOrFail($id);
 
         // $noticia->update($request->all());
-
+        Log::info('Noticia actualizada con éxito', ['id' => $id]);
         return redirect()->route('noticias.index')
             ->with('success', 'Noticia updated successfully');
     }

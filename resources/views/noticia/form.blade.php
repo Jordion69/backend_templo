@@ -124,6 +124,16 @@
     <div class="box-footer mt-5">
         <button type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
     </div>
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
 </div>
 
 

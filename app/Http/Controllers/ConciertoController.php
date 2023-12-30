@@ -124,8 +124,10 @@ class ConciertoController extends Controller
     public function edit($id)
     {
         $concierto = Concierto::find($id);
+        $provincias = Provincia::orderBy('provincia', 'asc')->pluck('provincia', 'id');
 
-        return view('concierto.edit', compact('concierto'));
+        return view('concierto.edit', compact('concierto', 'provincias'));
+        // return view('concierto.edit', compact('concierto'));
     }
 
     /**
