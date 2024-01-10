@@ -11,4 +11,8 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    build: {
+        manifest: true,
+        outDir: 'public/build', // Asegúrate de que esta ruta es donde Laravel espera los assets
+    },
 });

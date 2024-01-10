@@ -59,3 +59,6 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
 Route::resource('comunidades_autonomas', ComunidadesAutonomaController::class);
 Route::resource('provincias', ProvinciaController::class);
 Route::get('/get-comunidad-autonoma/{provinciaId}', [ProvinciaController::class, 'getComunidadAutonoma']);
+Route::get('/{any}', function () {
+    return view('welcome');
+})->where('any', '.*');

@@ -33,6 +33,7 @@ class Concierto extends Model
 		'poblacion' => 'required',
 		'provincia' => 'required',
 		'fecha_evento' => 'required',
+        'datos_licencia' => 'required|string/max:255'
     ];
 
     protected $perPage = 20;
@@ -52,7 +53,8 @@ class Concierto extends Model
         'link_entrada',
         'fecha_evento',
         'imagen',
-        'image_hash'
+        'image_hash',
+        'datos_licencia'
     ];
 
 

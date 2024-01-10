@@ -189,7 +189,7 @@ class ConciertoController extends Controller
 
     public function getFirstTenUpcoming()
     {
-        $currentDate = Carbon::now();
+        $currentDate = Carbon::today();
 
         $conciertos = Concierto::with('teloneros')
             ->where('fecha_evento', '>=', $currentDate)
@@ -202,7 +202,7 @@ class ConciertoController extends Controller
 
     public function getAllFromToday()
     {
-        $currentDate = Carbon::now();
+        $currentDate = Carbon::today();
 
         $conciertos = Concierto::with('teloneros')
             ->where('fecha_evento', '>=', $currentDate)

@@ -58,6 +58,11 @@
             {{ Form::text('alt_imagen', $concierto->alt_imagen, ['class' => 'form-control' . ($errors->has('alt_imagen') ? ' is-invalid' : ''), 'placeholder' => 'Alt Imagen']) }}
             {!! $errors->first('alt_imagen', '<div class="invalid-feedback">:message</div>') !!}
         </div>
+        <div class="form-group">
+            {{ Form::label('datos_licencia', 'Datos de Licencia') }}
+            {{ Form::text('datos_licencia', $concierto->datos_licencia, ['class' => 'form-control' . ($errors->has('datos_licencia') ? ' is-invalid' : ''), 'placeholder' => 'Ej: Autor, URL del Autor, Tipo de Licencia, URL de la Licencia']) }}
+            {!! $errors->first('datos_licencia', '<div class="invalid-feedback">:message</div>') !!}
+        </div>
 
     </div>
     <div class="box-footer mt20">

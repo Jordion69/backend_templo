@@ -18,11 +18,14 @@ class CreateSuperUserSeeder extends Seeder
     public function run()
     {
         $user = User::create([
-            'name' => 'Superuser',
-            'email' => 'superuser@gmail.com',
-            'password' => 'Password.1'
+            // 'name' => 'Superuser',
+            // 'email' => 'superuser@gmail.com',
+            // 'password' => 'Password.1'
+            'name' => 'Administrador',
+            'email' => 'templodelmetal1969@gmail.com',
+            'password' => 'ffft2mpl4d2lm2t@l'
         ]);
-        $role = Role::create(['name' => 'superuser']);
+        $role = Role::create(['name' => 'administrador']);
         $permissions = Permission::pluck('id', 'id')->all();
         $role->syncPermissions($permissions);
         $user->assignRole([$role->id]);

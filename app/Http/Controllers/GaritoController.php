@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Garito;
+use App\Models\GaritoDeleted;
 use App\Models\Provincia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -137,8 +138,9 @@ class GaritoController extends Controller
      */
     public function destroy($id)
     {
-        $garito1 = Garito::findOrFail($id);
-        if (Storage::delete('public/' .  $garito1->imagen)) {
+        $garito = Garito::findOrFail($id);
+        GaritoDeleted::create($garito->toArray());
+        if (Storage::delete('public/' .  $garito->imagen)) {
             $garito = Garito::find($id)->delete();
         }
         return redirect()->route('garitos.index')
