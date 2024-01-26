@@ -33,15 +33,15 @@ use Illuminate\Database\Eloquent\Model;
 class Noticia extends Model
 {
 
-  public $timestamps = true;
-  
+    public $timestamps = true;
     static $rules = [
-		'titular_inicial' => 'required',
-		'texto_inicial' => 'required',
-		'foto_inicio' => 'required',
-		'alt_foto_inicio' => 'required',
-		'titular' => 'required',
-		'texto1' => 'required',
+      'titular_inicial' => 'required',
+      'texto_inicial' => 'required',
+      'foto_inicio' => 'required',
+      'alt_foto_inicio' => 'required',
+      'titular' => 'required',
+      'texto1' => 'required',
+      'text1' => 'required|string/max:255'
     ];
 
     protected $perPage = 20;
