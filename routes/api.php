@@ -29,6 +29,8 @@ Route::middleware([Illuminate\Http\Middleware\HandleCors::class])->group(functio
     Route::get('/noticias/first-seven', [NoticiaController::class, 'firstSeven']);
     Route::get('/noticias/first-three', [NoticiaController::class, 'getFirstThree']);
     Route::get('/noticias/from-fourth', [NoticiaController::class, 'getFromFourthToEnd']);
+    Route::get('/noticia/{id}', [NoticiaController::class, 'apiShow']);
+
 
     //Web Garitos
     Route::get('/garitos/random-seven', [GaritoController::class, 'getRandomSeven']);

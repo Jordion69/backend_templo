@@ -180,9 +180,19 @@ class ConciertoController extends Controller
     public function destroy($id)
     {
         $concierto1 = Concierto::findOrFail($id);
-        if (Storage::delete('public/' .  $concierto1->imagen)) {
-            $concierto = Concierto::find($id)->delete();
+        // if (Storage::delete('public/' .  $concierto1->imagen)) {
+        //     $concierto = Concierto::find($id)->delete();
+        // }
+        $otherConcerts = Concierto::where('imagen', $concierto1->imagen)
+        ->where('id', '!=', $id)
+        ->count();
+
+        // Si no hay otros conciertos usando la misma imagen, entonces eliminar la imagen
+        if ($otherConcerts === 0) {
+            Storage::delete('public/' . $concierto1->imagen);
         }
+
+        $concierto1->delete();
         return redirect()->route('conciertos.index')
             ->with('success', 'Concierto deleted successfully');
     }
@@ -230,11 +240,14 @@ class ConciertoController extends Controller
                             ->where('updated_at', '>=', $sevenDaysAgo);
                     })
             )
-            ->orderBy('updated_at', 'desc')
-            ->get();
+            ->get()
+            ->pluck('id');
 
-        $concertIds = $result->pluck('id');
-        $concerts = Concierto::whereIn('id', $concertIds)->with('teloneros')->get();
+        // $concertIds = $result->pluck('id');
+        $concerts = Concierto::whereIn('id', $result)
+        ->with('teloneros')
+        ->orderBy('fecha_evento', 'asc')
+        ->get();
 
         return response()->json(['data' => $concerts]);
     }

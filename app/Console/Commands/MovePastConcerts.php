@@ -64,13 +64,19 @@ class MovePastConcerts extends Command
             // } else {
             //     dd($concert->imagen, $existingConcerts->toArray());
             // }
+            $otherConcertsUsingImage = Concierto::where('imagen', $concert->imagen)
+            ->where('id', '!=', $concert->id)
+            ->exists();
 
-            if (Storage::disk('public')->exists($concert->imagen)) {
-                $deleted = Storage::disk('public')->delete($concert->imagen);
-                $this->info("Archivo eliminado: " . $deleted);
-            } else {
-                $this->error("Archivo no encontrado: " . $concert->imagen);
+            if (!$otherConcertsUsingImage) {
+                if (Storage::disk('public')->exists($concert->imagen)) {
+                    Storage::disk('public')->delete($concert->imagen);
+                    $this->info("Imagen eliminada: " . $concert->imagen);
+                } else {
+                    $this->error("Imagen no encontrada: " . $concert->imagen);
+                }
             }
+
             $concert->delete();
         }
 

@@ -174,7 +174,7 @@ class GaritoController extends Controller
     }
     public function getAllByProvince()
     {
-        $garitos = Garito::orderBy('comunidad_autonoma')
+        $garitos = Garito::orderBy('provincia')
                         ->get();
 
         return response()->json(['garitos' => $garitos]);

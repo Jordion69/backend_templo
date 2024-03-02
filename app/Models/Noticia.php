@@ -41,7 +41,7 @@ class Noticia extends Model
       'alt_foto_inicio' => 'required',
       'titular' => 'required',
       'texto1' => 'required',
-      'text1' => 'required|string/max:255'
+      'text1' => 'required|string|max:255'
     ];
 
     protected $perPage = 20;

@@ -33,7 +33,7 @@ class Concierto extends Model
 		'poblacion' => 'required',
 		'provincia' => 'required',
 		'fecha_evento' => 'required',
-        'datos_licencia' => 'required|string/max:255'
+        'datos_licencia' => 'required|string|max:255'
     ];
 
     protected $perPage = 20;

@@ -171,4 +171,16 @@ class NoticiaController extends Controller
 
         return response()->json(['noticias' => $noticias]);
     }
+    public function apiShow($id)
+    {
+        $noticia = Noticia::find($id);
+
+        if (!$noticia) {
+            return response()->json([
+                'message' => 'Noticia no encontrada.'
+            ], 404); // Retorna una respuesta HTTP 404 si no se encuentra la noticia.
+        }
+
+        return response()->json($noticia); // Retorna los detalles de la noticia en formato JSON.
+    }
 }
